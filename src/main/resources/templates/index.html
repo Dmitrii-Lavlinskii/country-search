@@ -34,14 +34,14 @@
             </td>
         </tr>
     </table>
-    <input type="text" th:field="*{value}"/>
+    <input type="text" placeholder="Enter search string here..." th:field="*{value}"/>
     <p><input type="submit" value="Search"/>
 </form>
-<div th:if="${searchResponse.hasError}">
-    <p>An error occurred:</p>
+<div th:if="${!searchResponse.success}">
+    <span>An error occurred:</span>
     <p th:text="${searchResponse.errorText}"></p>
 </div>
-<table th:if="${!searchResponse.hasError}">
+<table th:if="${searchResponse.success}">
     <tr>
         <td>TODO: data</td>
     </tr>

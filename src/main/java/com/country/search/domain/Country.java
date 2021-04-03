@@ -19,5 +19,5 @@ public class Country {
     private String region;
     private String subregion;
     private int population;
-    private List<String> languages;
+    private List<Language> languages;
 }

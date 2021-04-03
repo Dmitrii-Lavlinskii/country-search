@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class SearchResponse {
-    private boolean hasError;
+    private boolean success;
     private String errorText;
     private List<Country> countries;
     private Statistics statistics;

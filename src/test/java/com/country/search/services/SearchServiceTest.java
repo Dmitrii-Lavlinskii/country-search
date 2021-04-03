@@ -18,10 +18,11 @@ public class SearchServiceTest {
 
     private SearchService testSubject;
     @Mock ValidationService validationService;
+    @Mock CountryService countryService;
 
     @Before
     public void setUp() {
-        testSubject = new SearchService(validationService);
+        testSubject = new SearchService(validationService, countryService);
     }
 
     @After

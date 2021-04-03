@@ -38,6 +38,9 @@ public class SearchController {
     @ModelAttribute(value = "searchResponse")
     public SearchResponse defaultResponse()
     {
-        return new SearchResponse();
+        SearchResponse response = new SearchResponse();
+        response.setSuccess(true);
+
+        return response;
     }
 }
