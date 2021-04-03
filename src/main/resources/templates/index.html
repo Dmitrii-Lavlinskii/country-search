@@ -37,5 +37,14 @@
     <input type="text" th:field="*{value}"/>
     <p><input type="submit" value="Search"/>
 </form>
+<div th:if="${searchResponse.hasError}">
+    <p>An error occurred:</p>
+    <p th:text="${searchResponse.errorText}"></p>
+</div>
+<table th:if="${!searchResponse.hasError}">
+    <tr>
+        <td>TODO: data</td>
+    </tr>
+</table>
 </body>
 </html>
