@@ -15,6 +15,8 @@ import java.util.UUID;
 @Slf4j
 public class SearchService {
     public static final String NOT_FOUND_MESSAGE = "Countries not found.";
+    public  static final String BAD_REQUEST_MESSAGE = "Incorrect search string.";
+
     private final ValidationService validationService;
     private final CountryService countryService;
     private final StatisticsService statisticsService;
@@ -50,7 +52,7 @@ public class SearchService {
         }
         catch (HttpClientErrorException.BadRequest badRequest) {
             log.warn("Bad request. Likely user error. Type: {}. Value: {}", request.getType(), request.getValue());
-            response.setErrorText("Incorrect search string.");
+            response.setErrorText(BAD_REQUEST_MESSAGE);
         }
         catch (Exception exception) {
             // Return uuid to the service consumer.
