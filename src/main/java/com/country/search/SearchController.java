@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class SearchController {
+    public static final String HOME_PAGE = "index";
     private final SearchService searchService;
 
     public SearchController(SearchService searchService) {
@@ -19,14 +20,14 @@ public class SearchController {
 
     @GetMapping("/")
     public String index(Model model) {
-        return "index";
+        return HOME_PAGE;
     }
 
     @PostMapping("/")
     public String search(final SearchRequest request, Model model) {
         SearchResponse response = searchService.search(request);
         model.addAttribute(response);
-        return "index";
+        return HOME_PAGE;
     }
 
     @ModelAttribute(value = "searchRequest")

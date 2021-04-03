@@ -19,10 +19,11 @@ public class SearchServiceTest {
     private SearchService testSubject;
     @Mock ValidationService validationService;
     @Mock CountryService countryService;
+    @Mock StatisticsService statisticsService;
 
     @Before
     public void setUp() {
-        testSubject = new SearchService(validationService, countryService);
+        testSubject = new SearchService(validationService, countryService, statisticsService);
     }
 
     @After
@@ -34,7 +35,7 @@ public class SearchServiceTest {
     public void search() {
         SearchRequest searchRequest = new SearchRequest();
         SearchResponse response = testSubject.search(searchRequest);
-        assertFalse(response.isHasError());
+        assertTrue(response.isSuccess());
 
         verify(validationService).validate(searchRequest);
     }
@@ -46,7 +47,7 @@ public class SearchServiceTest {
         doThrow(expectedException).when(validationService).validate(searchRequest);
 
         SearchResponse response = testSubject.search(searchRequest);
-        assertTrue(response.isHasError());
+        assertFalse(response.isSuccess());
         assertTrue(response.getErrorText().contains(expectedException.getMessage()));
 
         verify(validationService).validate(searchRequest);
