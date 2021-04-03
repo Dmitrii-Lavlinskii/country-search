@@ -2,8 +2,7 @@ package com.country.search.services;
 
 
 import com.country.search.domain.SearchRequest;
-import com.country.search.services.ValidationService;
-import com.country.search.services.SearchService;
+import com.country.search.domain.SearchResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,9 +10,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SearchServiceTest {
@@ -34,7 +32,21 @@ public class SearchServiceTest {
     @Test
     public void search() {
         SearchRequest searchRequest = new SearchRequest();
-        assertNotNull(testSubject.search(searchRequest));
+        SearchResponse response = testSubject.search(searchRequest);
+        assertFalse(response.isHasError());
+
+        verify(validationService).validate(searchRequest);
+    }
+
+    @Test
+    public void search_exception() {
+        SearchRequest searchRequest = new SearchRequest();
+        Exception expectedException = new RuntimeException("I am a fake exception");
+        doThrow(expectedException).when(validationService).validate(searchRequest);
+
+        SearchResponse response = testSubject.search(searchRequest);
+        assertTrue(response.isHasError());
+        assertTrue(response.getErrorText().contains(expectedException.getMessage()));
 
         verify(validationService).validate(searchRequest);
     }
