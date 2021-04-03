@@ -17,9 +17,11 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class CountryServiceTest {
     private CountryService testSubject;
+
     @Mock private RestOperations restOperations;
     @Mock ResponseEntity<Country> singleResponseEntity;
     @Mock ResponseEntity<Country[]> multipleResponseEntity;
+
     private static final String CODE_URL = "I am country-by-code endpoint";
     private static final String COUNTRY_NAME_URL = "I am country-by-name endpoint";
     private static final String FULL_NAME_URL = "I am country-by-full-name endpoint";
