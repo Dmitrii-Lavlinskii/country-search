@@ -8,17 +8,20 @@ import org.springframework.util.StringUtils;
 @Service
 @Slf4j
 public class ValidationService {
+    public static final String NULL_REQUEST =  "Search request cannot be null.";
+    public static final String NULL_TYPE =  "Search type cannot be null.";
+    public static final String EMPTY_SEARCH =  "Search string cannot be empty.";
     public String validate(SearchRequest request) {
         if (request == null) {
-            return "Search request cannot be null.";
+            return NULL_REQUEST;
         }
 
         if (request.getType() == null) {
-            return "Search type cannot be null.";
+            return NULL_TYPE;
         }
 
         if (!StringUtils.hasText(request.getValue())) {
-            return "Search string cannot be empty.";
+            return EMPTY_SEARCH;
         }
 
         return null;

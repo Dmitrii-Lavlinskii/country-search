@@ -3,13 +3,16 @@ package com.country.search.services;
 
 import com.country.search.domain.SearchRequest;
 import com.country.search.domain.SearchResponse;
+import com.country.search.domain.SearchType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.web.client.HttpClientErrorException;
 
+import static com.country.search.services.SearchService.NOT_FOUND_MESSAGE;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -41,15 +44,24 @@ public class SearchServiceTest {
     }
 
     @Test
-    public void search_exception() {
-        SearchRequest searchRequest = new SearchRequest();
-        Exception expectedException = new RuntimeException("I am a fake exception");
-        doThrow(expectedException).when(validationService).validate(searchRequest);
+    public void search_notFound() {
+        SearchRequest request = buildRequest();
 
-        SearchResponse response = testSubject.search(searchRequest);
+        doThrow(HttpClientErrorException.NotFound.class)
+                .when(countryService).retrieve(request.getType(), request.getValue());
+
+        SearchResponse response = testSubject.search(request);
         assertFalse(response.isSuccess());
-        assertTrue(response.getErrorText().contains(expectedException.getMessage()));
+        assertEquals(NOT_FOUND_MESSAGE, response.getErrorText());
 
-        verify(validationService).validate(searchRequest);
+        verify(validationService).validate(request);
+    }
+
+    private SearchRequest buildRequest() {
+        SearchRequest request = new SearchRequest();
+        request.setValue("abc");
+        request.setType(SearchType.COUNTRY_NAME);
+
+        return request;
     }
 }

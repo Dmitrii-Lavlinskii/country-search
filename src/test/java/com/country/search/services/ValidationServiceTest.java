@@ -5,6 +5,10 @@ import com.country.search.domain.SearchType;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.country.search.services.ValidationService.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 public class ValidationServiceTest {
 
     private ValidationService testSubject;
@@ -21,34 +25,34 @@ public class ValidationServiceTest {
         request.setType(SearchType.COUNTRY_NAME);
         request.setValue("Andorra");
 
-        testSubject.validate(request);
+        assertNull(testSubject.validate(request));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void validate_nullRequest() {
-        testSubject.validate(null);
+        assertEquals(NULL_REQUEST, testSubject.validate(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void validate_nullType() {
         SearchRequest request = new SearchRequest();
         request.setType(null);
-        testSubject.validate(request);
+        assertEquals(NULL_TYPE, testSubject.validate(request));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void validate_nullValue() {
         SearchRequest request = new SearchRequest();
         request.setType(SearchType.COUNTRY_NAME);
         request.setValue(null);
-        testSubject.validate(request);
+        assertEquals(EMPTY_SEARCH, testSubject.validate(request));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void validate_emptyValue() {
         SearchRequest request = new SearchRequest();
         request.setType(SearchType.COUNTRY_NAME);
         request.setValue("");
-        testSubject.validate(request);
+        assertEquals(EMPTY_SEARCH, testSubject.validate(request));
     }
 }
