@@ -6,26 +6,35 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 
-import java.util.Collections;
-import java.util.List;
-
 @Service
 public class CountryService {
     private final RestOperations restTemplate;
     private final String countryByCodeUrl;
+    private final String countryByFullNameUrl;
+    private final String countryByCountryNameUrl;
 
-    public CountryService(RestOperations restTemplate, @Value("${country_by_code_url}") String countryByCodeUrl) {
+    public CountryService(RestOperations restTemplate,
+                          @Value("${country_by_code_url}") String countryByCodeUrl,
+                          @Value("${country_by_full_name_url}") String countryByFullNameUrl,
+                          @Value("${country_by_country_name_url}") String countryByCountryNameUrl
+                          ) {
         this.restTemplate = restTemplate;
         this.countryByCodeUrl = countryByCodeUrl;
+        this.countryByFullNameUrl = countryByFullNameUrl;
+        this.countryByCountryNameUrl = countryByCountryNameUrl;
     }
 
-    public List<Country> retrieve(SearchType type, String value) {
+    public Country[] retrieve(SearchType type, String value) {
         switch (type) {
             case CODE:
                 var response = restTemplate.getForEntity(countryByCodeUrl, Country.class, value);
-                return Collections.singletonList(response.getBody());
+                return new Country[]{response.getBody()};
+            case FULL_NAME:
+                return restTemplate.getForEntity(countryByFullNameUrl, Country[].class, value).getBody();
+            case COUNTRY_NAME:
+                return  restTemplate.getForEntity(countryByCountryNameUrl, Country[].class, value).getBody();
+            default:
+                throw new IllegalArgumentException("Search type is not supported.");
         }
-
-        return Collections.emptyList();
     }
 }

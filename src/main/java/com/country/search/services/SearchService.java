@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -39,7 +38,7 @@ public class SearchService {
         try
         {
             // retrieve countries and calculate statistics.
-            List<Country> countries = countryService.retrieve(request.getType(), request.getValue());
+            Country[] countries = countryService.retrieve(request.getType(), request.getValue());
             Statistics statistics = statisticsService.calculateStatistics(countries);
 
             response.setCountries(countries);

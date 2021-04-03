@@ -10,9 +10,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.country.search.services.SearchService.BAD_REQUEST_MESSAGE;
 import static com.country.search.services.SearchService.NOT_FOUND_MESSAGE;
 import static org.junit.Assert.*;
@@ -39,7 +36,7 @@ public class SearchServiceTest {
     @Test
     public void search() {
         SearchRequest searchRequest = buildRequest();
-        List<Country> countries = new ArrayList<>();
+        Country[] countries = new Country[0];
         Statistics statistics = new Statistics();
         when(countryService.retrieve(searchRequest.getType(), searchRequest.getValue())).thenReturn(countries);
         when(statisticsService.calculateStatistics(countries)).thenReturn(statistics);
