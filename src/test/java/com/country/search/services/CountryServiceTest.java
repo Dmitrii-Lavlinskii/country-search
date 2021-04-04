@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestOperations;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -53,30 +54,56 @@ public class CountryServiceTest {
 
     @Test
     public void retrieve_countryName() {
-        Country[] countries = new Country[1];
+        Country[] countries = new Country[3];
         String searchText = "I am a country name";
         countries[0] = new Country();
+        countries[1] = new Country();
+        countries[2] = new Country();
+
+        // set countries in different population order to test sorting.
+        countries[0].setPopulation(5);
+        countries[1].setPopulation(3);
+        countries[2].setPopulation(8);
 
         when(restOperations.getForEntity(COUNTRY_NAME_URL, Country[].class, searchText)).thenReturn(multipleResponseEntity);
         when(multipleResponseEntity.getBody()).thenReturn(countries);
 
         var actual = testSubject.retrieve(SearchType.COUNTRY_NAME, searchText);
         assertArrayEquals(countries, actual);
+
+        // assert expected order.
+        assertEquals(8, actual[0].getPopulation());
+        assertEquals(5, actual[1].getPopulation());
+        assertEquals(3, actual[2].getPopulation());
+
         verify(restOperations).getForEntity(COUNTRY_NAME_URL, Country[].class, searchText);
         verify(multipleResponseEntity).getBody();
     }
 
     @Test
     public void retrieve_fullName() {
-        Country[] countries = new Country[1];
+        Country[] countries = new Country[3];
         String searchText = "I am a full name";
         countries[0] = new Country();
+        countries[1] = new Country();
+        countries[2] = new Country();
+
+        // set countries in different population order to test sorting.
+        countries[0].setPopulation(9);
+        countries[1].setPopulation(8);
+        countries[2].setPopulation(11);
 
         when(restOperations.getForEntity(FULL_NAME_URL, Country[].class, searchText)).thenReturn(multipleResponseEntity);
         when(multipleResponseEntity.getBody()).thenReturn(countries);
 
         var actual = testSubject.retrieve(SearchType.FULL_NAME, searchText);
         assertArrayEquals(countries, actual);
+
+        // assert expected order.
+        assertEquals(11, actual[0].getPopulation());
+        assertEquals(9, actual[1].getPopulation());
+        assertEquals(8, actual[2].getPopulation());
+
         verify(restOperations).getForEntity(FULL_NAME_URL, Country[].class, searchText);
         verify(multipleResponseEntity).getBody();
     }

@@ -8,7 +8,6 @@
 <body>
 <h2>Country Search</h2>
 <form action="#" th:action="@{/}" th:object="${searchRequest}" method="post">
-
     <label for="search-type">Search by:</label>
     <select id="search-type" th:field="*{type}">
         <option value="COUNTRY_NAME">Name</option>
@@ -20,7 +19,7 @@
 </form>
 <div th:if="${!searchResponse.success}">
     <span>An error occurred:</span>
-    <p th:text="${searchResponse.errorText}"></p>
+    <span th:text="${searchResponse.errorText}"></span>
 </div>
 <div th:if="${searchResponse.hasData()}">
     <table>
@@ -85,6 +84,7 @@
             <td th:text="${subregion.key}"></td>
             <td th:text="${subregion.value}"></td>
         </tr>
+    </table>
 </div>
 </body>
 </html>

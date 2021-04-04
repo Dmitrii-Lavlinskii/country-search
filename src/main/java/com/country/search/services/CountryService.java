@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 @Service
 public class CountryService {
     private final RestOperations restTemplate;
@@ -25,16 +28,28 @@ public class CountryService {
     }
 
     public Country[] retrieve(SearchType type, String value) {
+        Country[] countries;
+
         switch (type) {
             case CODE:
                 var response = restTemplate.getForEntity(countryByCodeUrl, Country.class, value);
-                return new Country[]{response.getBody()};
+                countries = new Country[]{response.getBody()};
+                break;
             case FULL_NAME:
-                return restTemplate.getForEntity(countryByFullNameUrl, Country[].class, value).getBody();
+                countries = restTemplate.getForEntity(countryByFullNameUrl, Country[].class, value).getBody();
+                break;
             case COUNTRY_NAME:
-                return  restTemplate.getForEntity(countryByCountryNameUrl, Country[].class, value).getBody();
+                countries = restTemplate.getForEntity(countryByCountryNameUrl, Country[].class, value).getBody();
+                break;
             default:
                 throw new IllegalArgumentException("Search type is not supported.");
         }
+
+        if (countries == null) {
+            countries = new Country[0];
+        }
+
+        Arrays.sort(countries, Comparator.comparing(Country::getPopulation).reversed());
+        return countries;
     }
 }
