@@ -3,37 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Country Search</title>
+    <link th:href="@{/main.css}" rel="stylesheet" />
 </head>
 <body>
-<h1>Country Search</h1>
+<h2>Country Search</h2>
 <form action="#" th:action="@{/}" th:object="${searchRequest}" method="post">
-    <h2>Search by:</h2>
-    <table>
-        <tr>
-            <td>
-                <label for="country_name">Name</label>
-            </td>
-            <td>
-                <input id="country_name" type="radio" th:field="*{type}" value="COUNTRY_NAME"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="full_name">Full Name</label>
-            </td>
-            <td>
-                <input id="full_name" type="radio" th:field="*{type}" value="FULL_NAME"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="code">Code</label>
-            </td>
-            <td>
-                <input id="code" type="radio" th:field="*{type}" value="CODE"/>
-            </td>
-        </tr>
-    </table>
+
+    <label for="search-type">Search by:</label>
+    <select id="search-type" th:field="*{type}">
+        <option value="COUNTRY_NAME">Name</option>
+        <option value="FULL_NAME">Full Name</option>
+        <option value="CODE">Code</option>
+    </select>
     <input type="text" placeholder="Enter search string here..." th:field="*{value}"/>
     <p><input type="submit" value="Search"/>
 </form>
@@ -41,9 +22,44 @@
     <span>An error occurred:</span>
     <p th:text="${searchResponse.errorText}"></p>
 </div>
-<table th:if="${searchResponse.success}">
+<table th:if="${searchResponse.hasData()}" id="results">
     <tr>
-        <td>TODO: data</td>
+        <th>
+            Full name
+        </th>
+        <th>
+            Alpha Code 2
+        </th>
+        <th>
+            Alpha Code 3
+        </th>
+        <th>
+            Flag
+        </th>
+        <th>
+            Region
+        </th>
+        <th>
+            Subregion
+        </th>
+        <th>
+            Population
+        </th>
+        <th>
+            Languages
+        </th>
+    </tr>
+    <tr th:each="country: ${searchResponse.countries}">
+        <td th:text="${country.name}"></td>
+        <td th:text="${country.alpha2Code}"></td>
+        <td th:text="${country.alpha3Code}"></td>
+        <td class="flag">
+            <img th:src="${country.flag}" />
+        </td>
+        <td th:text="${country.region}"></td>
+        <td th:text="${country.subregion}"></td>
+        <td th:text="${country.population}"></td>
+        <td th:text="${country.getLanguageNames()}"></td>
     </tr>
 </table>
 </body>

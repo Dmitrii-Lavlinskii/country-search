@@ -8,4 +8,8 @@ public class SearchResponse {
     private String errorText;
     private Country[] countries;
     private Statistics statistics;
+
+    public boolean hasData() {
+        return success && countries != null && countries.length > 0;
+    }
 }

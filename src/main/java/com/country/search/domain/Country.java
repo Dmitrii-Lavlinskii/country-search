@@ -5,6 +5,7 @@ import lombok.Data;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class Country {
@@ -20,4 +21,11 @@ public class Country {
     private String subregion;
     private int population;
     private List<Language> languages;
+
+    public String getLanguageNames() {
+        return languages
+                .stream()
+                .map(Language::getName)
+                .collect(Collectors.joining(", "));
+    }
 }
