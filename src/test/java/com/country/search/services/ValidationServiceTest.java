@@ -2,18 +2,18 @@ package com.country.search.services;
 
 import com.country.search.domain.SearchRequest;
 import com.country.search.domain.SearchType;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static com.country.search.services.ValidationService.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ValidationServiceTest {
 
     private ValidationService testSubject;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         testSubject = new ValidationService();
     }

@@ -2,20 +2,20 @@ package com.country.search.services;
 
 
 import com.country.search.domain.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.HttpClientErrorException;
 
 import static com.country.search.services.SearchService.BAD_REQUEST_MESSAGE;
 import static com.country.search.services.SearchService.NOT_FOUND_MESSAGE;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SearchServiceTest {
 
     private SearchService testSubject;
@@ -23,12 +23,12 @@ public class SearchServiceTest {
     @Mock CountryService countryService;
     @Mock StatisticsService statisticsService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         testSubject = new SearchService(validationService, countryService, statisticsService);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         verifyNoMoreInteractions(validationService, countryService, statisticsService);
     }

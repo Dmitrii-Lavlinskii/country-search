@@ -3,30 +3,30 @@ package com.country.search;
 import com.country.search.domain.SearchRequest;
 import com.country.search.domain.SearchResponse;
 import com.country.search.services.SearchService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
 
 import static com.country.search.SearchController.HOME_PAGE;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SearchControllerTest {
     private SearchController testSubject;
     @Mock SearchService searchService;
     @Mock Model model;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         testSubject = new SearchController(searchService);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         verifyNoMoreInteractions(searchService);
     }
