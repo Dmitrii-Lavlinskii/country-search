@@ -46,7 +46,7 @@ public class CountryServiceTest {
         when(restOperations.getForEntity(CODE_URL, Country.class, searchText)).thenReturn(singleResponseEntity);
         when(singleResponseEntity.getBody()).thenReturn(countries[0]);
 
-        var actual = testSubject.retrieve(SearchType.CODE, searchText);
+        Country[] actual = testSubject.retrieve(SearchType.CODE, searchText);
         assertArrayEquals(countries, actual);
         verify(restOperations).getForEntity(CODE_URL, Country.class, searchText);
         verify(singleResponseEntity).getBody();
@@ -68,7 +68,7 @@ public class CountryServiceTest {
         when(restOperations.getForEntity(COUNTRY_NAME_URL, Country[].class, searchText)).thenReturn(multipleResponseEntity);
         when(multipleResponseEntity.getBody()).thenReturn(countries);
 
-        var actual = testSubject.retrieve(SearchType.COUNTRY_NAME, searchText);
+        Country[] actual = testSubject.retrieve(SearchType.COUNTRY_NAME, searchText);
         assertArrayEquals(countries, actual);
 
         // assert expected order.
@@ -96,7 +96,7 @@ public class CountryServiceTest {
         when(restOperations.getForEntity(FULL_NAME_URL, Country[].class, searchText)).thenReturn(multipleResponseEntity);
         when(multipleResponseEntity.getBody()).thenReturn(countries);
 
-        var actual = testSubject.retrieve(SearchType.FULL_NAME, searchText);
+        Country[] actual = testSubject.retrieve(SearchType.FULL_NAME, searchText);
         assertArrayEquals(countries, actual);
 
         // assert expected order.

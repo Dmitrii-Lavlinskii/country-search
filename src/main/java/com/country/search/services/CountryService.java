@@ -3,6 +3,7 @@ package com.country.search.services;
 import com.country.search.domain.Country;
 import com.country.search.domain.SearchType;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 
@@ -32,7 +33,7 @@ public class CountryService {
 
         switch (type) {
             case CODE:
-                var response = restTemplate.getForEntity(countryByCodeUrl, Country.class, value);
+                ResponseEntity<Country> response = restTemplate.getForEntity(countryByCodeUrl, Country.class, value);
                 countries = new Country[]{response.getBody()};
                 break;
             case FULL_NAME:
