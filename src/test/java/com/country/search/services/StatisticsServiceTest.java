@@ -19,35 +19,36 @@ public class StatisticsServiceTest {
     @Test
     public void calculateStatistics() {
         Country country1 = new Country();
-        country1.setRegion("abc");
-        country1.setSubregion("def");
+        country1.setRegion("region1");
+        country1.setSubregion("subregion1");
 
         Country country2 = new Country();
-        country2.setRegion("abc");
-        country2.setSubregion("xyz");
+        country2.setRegion("region1");
+        country2.setSubregion("subregion2");
 
         Country country3 = new Country();
-        country3.setSubregion("def");
+        country3.setSubregion("subregion1");
 
         Country country4 = new Country();
-        country4.setRegion("def");
-        country4.setSubregion("def");
+        country4.setRegion("region2");
+        country4.setSubregion("subregion1");
 
         Country country5 = new Country();
-        country5.setRegion("def");
+        country5.setRegion("region3");
 
         Statistics actual = testSubject.calculateStatistics(
                 new Country[]{country1, country2, country3, country4, country5});
 
         assertEquals(5, actual.getNumberOfCountries());
 
-        assertEquals(2, actual.getRegions().keySet().size());
+        assertEquals(3, actual.getRegions().keySet().size());
         assertEquals(2, actual.getSubregions().keySet().size());
 
-        assertEquals(2, actual.getRegions().get("abc").intValue());
-        assertEquals(2, actual.getRegions().get("def").intValue());
+        assertEquals(2, actual.getRegions().get("region1").intValue());
+        assertEquals(1, actual.getRegions().get("region2").intValue());
+        assertEquals(1, actual.getRegions().get("region3").intValue());
 
-        assertEquals(1, actual.getSubregions().get("xyz").intValue());
-        assertEquals(3, actual.getSubregions().get("def").intValue());
+        assertEquals(3, actual.getSubregions().get("subregion1").intValue());
+        assertEquals(1, actual.getSubregions().get("subregion2").intValue());
     }
 }
